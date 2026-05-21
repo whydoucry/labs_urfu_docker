@@ -1,0 +1,19 @@
+1. через переменную окружения в секции environment:
+yaml
+services:
+  app:
+    image: myapp
+    environment:
+      - DATABASE_URL=postgresql://user:pass@postgres:5432/dbname
+postgres — имя сервиса с БД в том же compose-файле
+
+2. чтобы данные базы не удалялись при пересоздании контейнера. Volume монтирует папку /var/lib/postgresql/data (где Postgres хранит файлы) на хост-машину;
+без volume после docker compose down все данные теряются.
+volumes:
+  - pgdata:/var/lib/postgresql/data
+
+3. docker exec -it <имя_контейнера> <команда>
+например:
+docker exec -it my_postgres bash    
+docker exec -it my_postgres psql -U postgres 
+docker exec my_app ls /app  
